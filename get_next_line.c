@@ -6,7 +6,7 @@
 /*   By: bde-biol <bde-biol@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:20:20 by bde-biol          #+#    #+#             */
-/*   Updated: 2022/07/30 15:46:27 by bde-biol         ###   ########.fr       */
+/*   Updated: 2022/07/30 17:48:37 by bde-biol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,46 +38,33 @@ ssize_t	ft_strchr(const char *s, int c)
 	return (-1);
 }
 
-char	*malloc_empty_string(void)
+ssize_t	concat_and_read(int fd, char **file_content)
 {
-	char	*str;
-
-	str = malloc(sizeof(char));
-	str[0] = 0;
-	return (str);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*ptr;
-	size_t	max_len;
-
-	if (start > ft_strlen(s))
-		return (malloc_empty_string());
-	max_len = ft_strlen(s + start);
-	if (len < max_len)
-		max_len = len;
-	ptr = malloc(max_len + 1);
-	if (!ptr)
-		return (NULL);
-	ft_strlcpy(ptr, s + start, max_len + 1);
-	return (ptr);
-}
-
-int	concat_and_read(int fd, char **file_content)
-{
-	char	buffer[BUFFER_SIZE + 1];
-	int		number_of_bytes_read;
+	char	*buffer;
+	ssize_t	number_of_bytes_read;
 	char	*temp;
 
+	buffer = malloc(BUFFER_SIZE + 1);
 	number_of_bytes_read = read(fd, buffer, BUFFER_SIZE);
+	if (number_of_bytes_read == -1)
+	{
+		free(buffer);
+		return (0);
+	}
 	buffer[number_of_bytes_read] = 0;
 	temp = *file_content;
 	*file_content = malloc((ft_strlen(*file_content)
 				+ number_of_bytes_read + 1) * sizeof(char));
+	if (!*file_content)
+	{
+		free(temp);
+		free(buffer);
+		return (0);
+	}
 	ft_strcpy(*file_content, temp);
 	ft_strcat(*file_content, buffer);
 	free(temp);
+	free(buffer);
 	return (number_of_bytes_read);
 }
 
@@ -92,7 +79,8 @@ char	*replace_content_and_return(char **file_content)
 		position = ft_strlen(*file_content) - 1;
 	line = ft_substr(*file_content, 0, position + 1);
 	temp = *file_content;
-	*file_content = ft_substr(*file_content, position + 1, ft_strlen(*file_content) - position - 1);
+	*file_content = ft_substr(*file_content, position + 1,
+			ft_strlen(*file_content) - position - 1);
 	free(temp);
 	return (line);
 }
@@ -102,19 +90,14 @@ char	*get_next_line(int fd)
 {
 	static char	*file_content[MAX_OPEN_FILES];
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
 		return (NULL);
 	if (!file_content[fd])
 		file_content[fd] = malloc_empty_string();
-	while (ft_strchr(file_content[fd], '\n') == -1 && concat_and_read(fd, &file_content[fd]) > 0)
+	while (ft_strchr(file_content[fd], '\n') == -1
+		&& concat_and_read(fd, &file_content[fd]) > 0)
 		;
 	if (!ft_strlen(file_content[fd]))
 		return (NULL);
 	return (replace_content_and_return(&file_content[fd]));
-	// concat/join file_content and what has been read from file(buffer)
-	//after the while :
-	// if file_content == 0 o *file_content == 0 return NULL
-	// if file content contains '\n' create substring until \n + replace file_content with the rest + return the subsctring
-	// return file_content
-	//return (file_content);
 }

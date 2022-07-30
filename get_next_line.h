@@ -6,7 +6,7 @@
 /*   By: bde-biol <bde-biol@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:20:08 by bde-biol          #+#    #+#             */
-/*   Updated: 2022/07/30 15:45:16 by bde-biol         ###   ########.fr       */
+/*   Updated: 2022/07/30 17:36:10 by bde-biol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ size_t	ft_strlcpy(char *dst, const char *src,
 char	*ft_strcat(char *dest, char *src);
 ssize_t	ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *str);
+char	*malloc_empty_string(void);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1000

@@ -6,7 +6,7 @@
 /*   By: bde-biol <bde-biol@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:20:24 by bde-biol          #+#    #+#             */
-/*   Updated: 2022/07/30 11:48:36 by bde-biol         ###   ########.fr       */
+/*   Updated: 2022/07/30 17:35:43 by bde-biol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,33 @@ char	*ft_strcat(char *dest, char *src)
 	}
 	dest[i + j] = '\0';
 	return (dest);
+}
+
+
+char	*malloc_empty_string(void)
+{
+	char	*str;
+
+	str = malloc(sizeof(char));
+	if (!str)
+		return (NULL);
+	str[0] = 0;
+	return (str);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*ptr;
+	size_t	max_len;
+
+	if (start > ft_strlen(s))
+		return (malloc_empty_string());
+	max_len = ft_strlen(s + start);
+	if (len < max_len)
+		max_len = len;
+	ptr = malloc(max_len + 1);
+	if (!ptr)
+		return (NULL);
+	ft_strlcpy(ptr, s + start, max_len + 1);
+	return (ptr);
 }
