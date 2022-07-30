@@ -6,7 +6,7 @@
 /*   By: bde-biol <bde-biol@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:59:18 by bde-biol          #+#    #+#             */
-/*   Updated: 2022/07/30 15:52:59 by bde-biol         ###   ########.fr       */
+/*   Updated: 2022/07/30 18:00:16 by bde-biol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int argc, char const *argv[])
 	int			fd[2];
 	char		*line;
 	int			line_number;
-	char 		should_break;
+	char		should_break;
 
 	line_number = 0;
 	should_break = 0;
@@ -40,7 +40,7 @@ int	main(int argc, char const *argv[])
 	{
 		fd[0] = open_file(argv[1]);
 		fd[1] = open_file(argv[2]);
-		if (fd[0] == -1  || fd[1] == -1)
+		if (fd[0] == -1 || fd[1] == -1)
 			return (0);
 		while (1)
 		{

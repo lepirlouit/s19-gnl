@@ -6,7 +6,7 @@
 /*   By: bde-biol <bde-biol@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:20:20 by bde-biol          #+#    #+#             */
-/*   Updated: 2022/07/30 17:48:37 by bde-biol         ###   ########.fr       */
+/*   Updated: 2022/07/30 17:49:35 by bde-biol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ ssize_t	concat_and_read(int fd, char **file_content)
 {
 	char	*buffer;
 	ssize_t	number_of_bytes_read;
-	char	*temp;
 
 	buffer = malloc(BUFFER_SIZE + 1);
 	number_of_bytes_read = read(fd, buffer, BUFFER_SIZE);
@@ -52,18 +51,7 @@ ssize_t	concat_and_read(int fd, char **file_content)
 		return (0);
 	}
 	buffer[number_of_bytes_read] = 0;
-	temp = *file_content;
-	*file_content = malloc((ft_strlen(*file_content)
-				+ number_of_bytes_read + 1) * sizeof(char));
-	if (!*file_content)
-	{
-		free(temp);
-		free(buffer);
-		return (0);
-	}
-	ft_strcpy(*file_content, temp);
-	ft_strcat(*file_content, buffer);
-	free(temp);
+	*file_content = join_and_free_s1(*file_content, buffer);
 	free(buffer);
 	return (number_of_bytes_read);
 }

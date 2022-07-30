@@ -6,19 +6,11 @@
 /*   By: bde-biol <bde-biol@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:20:24 by bde-biol          #+#    #+#             */
-/*   Updated: 2022/07/30 17:35:43 by bde-biol         ###   ########.fr       */
+/*   Updated: 2022/07/30 17:56:21 by bde-biol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-char	*ft_strcpy(char *dest, char *src)
-{
-	*dest = *src;
-	if (*src != '\0')
-		ft_strcpy(dest + 1, src + 1);
-	return (dest);
-}
 
 size_t	ft_strlcpy(char *dst, const char *src,
 			size_t dstsize)
@@ -43,25 +35,6 @@ size_t	ft_strlcpy(char *dst, const char *src,
 		i++;
 	return (i);
 }
-
-char	*ft_strcat(char *dest, char *src)
-{
-	unsigned int	i;
-	unsigned int	j;
-
-	i = 0;
-	j = 0;
-	while (dest[i] != 0)
-		i++;
-	while (src[j] != 0)
-	{
-		dest[i + j] = src[j];
-		j++;
-	}
-	dest[i + j] = '\0';
-	return (dest);
-}
-
 
 char	*malloc_empty_string(void)
 {
@@ -89,4 +62,41 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	ft_strlcpy(ptr, s + start, max_len + 1);
 	return (ptr);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*str;
+	int		i;
+	int		j;
+	int		size;
+
+	size = ft_strlen(s1) + ft_strlen(s2);
+	str = (char *)malloc(sizeof(char) * (size + 1));
+	if (!str || !s1 || !s2)
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j])
+	{
+		str[i] = s2[j];
+		i++;
+		j++;
+	}
+	str[size] = '\0';
+	return (str);
+}
+
+char	*join_and_free_s1(char *s1, char *s2)
+{
+	char	*new_str;
+
+	new_str = ft_strjoin(s1, s2);
+	free(s1);
+	return (new_str);
 }
