@@ -1,0 +1,7 @@
+a.out
+*.o
+main
+*.txt
+.vscode
+exploration.c
+gnl.a
