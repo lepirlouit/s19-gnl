@@ -6,7 +6,7 @@
 /*   By: bde-biol <bde-biol@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:20:08 by bde-biol          #+#    #+#             */
-/*   Updated: 2022/07/30 11:49:35 by bde-biol         ###   ########.fr       */
+/*   Updated: 2022/07/30 15:45:16 by bde-biol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+
+# define MAX_OPEN_FILES 4096
 
 char	*get_next_line(int fd);
 char	*ft_strcpy(char *dest, char *src);
