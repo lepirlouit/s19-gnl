@@ -6,7 +6,7 @@
 /*   By: bde-biol <bde-biol@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:20:20 by bde-biol          #+#    #+#             */
-/*   Updated: 2022/07/30 17:49:35 by bde-biol         ###   ########.fr       */
+/*   Updated: 2022/07/31 22:46:54 by bde-biol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ ssize_t	concat_and_read(int fd, char **file_content)
 	ssize_t	number_of_bytes_read;
 
 	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (0);
 	number_of_bytes_read = read(fd, buffer, BUFFER_SIZE);
 	if (number_of_bytes_read == -1)
 	{
@@ -52,6 +54,11 @@ ssize_t	concat_and_read(int fd, char **file_content)
 	}
 	buffer[number_of_bytes_read] = 0;
 	*file_content = join_and_free_s1(*file_content, buffer);
+	if (!*file_content)
+	{
+		free(buffer);
+		return (0);
+	}
 	free(buffer);
 	return (number_of_bytes_read);
 }
@@ -64,7 +71,12 @@ char	*replace_content_and_return(char **file_content)
 
 	position = ft_strchr(*file_content, '\n');
 	if (position == -1)
-		position = ft_strlen(*file_content) - 1;
+	{
+		line = ft_substr(*file_content, 0, ft_strlen(*file_content));
+		free(*file_content);
+		*file_content = NULL;
+		return (line);
+	}
 	line = ft_substr(*file_content, 0, position + 1);
 	temp = *file_content;
 	*file_content = ft_substr(*file_content, position + 1,
@@ -82,10 +94,18 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (!file_content[fd])
 		file_content[fd] = malloc_empty_string();
+	if (!file_content[fd])
+		return (NULL);
 	while (ft_strchr(file_content[fd], '\n') == -1
 		&& concat_and_read(fd, &file_content[fd]) > 0)
 		;
-	if (!ft_strlen(file_content[fd]))
+	if (!file_content[fd])
 		return (NULL);
+	if (!ft_strlen(file_content[fd]))
+	{
+		free(file_content[fd]);
+		file_content[fd] = NULL;
+		return (NULL);
+	}
 	return (replace_content_and_return(&file_content[fd]));
 }
