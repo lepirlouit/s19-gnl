@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bde-biol <bde-biol@student.s19.be>         +#+  +:+       +#+        */
+/*   By: bde-biol <bde-biol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:20:24 by bde-biol          #+#    #+#             */
-/*   Updated: 2022/07/30 17:56:21 by bde-biol         ###   ########.fr       */
+/*   Updated: 2022/08/05 17:56:41 by bde-biol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlcpy(char *dst, const char *src,
 			size_t dstsize)
